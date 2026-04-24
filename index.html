@@ -126,7 +126,25 @@
     .artd-section{font-size:16px;font-weight:700;padding:14px 0 8px;color:var(--text);}
 
     /* FIX 3: Mini-player hidden in player screen */
-    #mini-player{position:fixed;bottom:calc(var(--nav-h)+var(--safe-b)+4px);left:10px;right:10px;height:var(--mini-h);background:var(--mini-bg);border-radius:18px;display:flex;align-items:center;padding:0 10px;cursor:pointer;z-index:90;box-shadow:var(--sh);transform:translateY(200px);opacity:0;transition:transform .36s cubic-bezier(.4,0,.2,1),opacity .36s;border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
+    /* Mini Player positionné juste au-dessus de la Nav Bar */
+.mini-player {
+  position: fixed;
+  /* On le place à la hauteur de la nav + la zone safe de l'iPhone */
+  bottom: calc(var(--nav-h) + var(--safe-b)); 
+  left: 10px;
+  right: 10px;
+  height: var(--mini-h);
+  background: var(--mini-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: 12px;
+  display: none; /* Affiché uniquement quand une musique joue */
+  align-items: center;
+  padding: 0 12px;
+  box-shadow: var(--sh);
+  border: 1px solid var(--border);
+  z-index: 999;
+}
     #mini-player.show{transform:translateY(0);opacity:1;}
     #mini-player.hidden-in-player{transform:translateY(200px)!important;opacity:0!important;pointer-events:none!important;}
     .mp-art{width:44px;height:44px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-right:10px;}
