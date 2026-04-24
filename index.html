@@ -127,6 +127,13 @@
 
     /* FIX 3: Mini-player hidden in player screen */
     /* Mini Player positionné juste au-dessus de la Nav Bar */
+    .nav {
+  position: fixed;
+  bottom: 0;
+  height: 60px;
+  padding-bottom: env(safe-area-inset-bottom);
+  /* ... reste de ton style ... */
+}
 .mini-player {
   position: fixed;
   /* On le place à la hauteur de la nav + la zone safe de l'iPhone */
