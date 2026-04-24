@@ -6,18 +6,25 @@ self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
 self.addEventListener('fetch', (event) => {
   const url = event.request.url;
 
-  // On intercepte uniquement les fichiers MP3 de Backblaze
+  // On cible les fichiers audio de Backblaze
   if (url.includes('backblazeb2.com') || url.endsWith('.mp3')) {
     event.respondWith(
       caches.open(CACHE_NAME).then((cache) => {
         return cache.match(event.request).then((response) => {
-          // Si déjà en mémoire, on sert le fichier localement (0 data)
+          
+          // 1. Si déjà en cache, on le lit de là
           if (response) return response;
 
-          // Sinon, on télécharge et on clone le flux vers le cache
+          // 2. SINON : On laisse passer la requête normale vers le réseau
+          // MAIS on ajoute un "listener" pour copier le résultat dans le cache
           return fetch(event.request).then((networkResponse) => {
-            cache.put(event.request, networkResponse.clone());
+            // On vérifie que la réponse est valide avant de la mettre en cache
+            if (networkResponse.status === 200 || networkResponse.status === 206) {
+              cache.put(event.request, networkResponse.clone());
+            }
             return networkResponse;
+          }).catch(() => {
+            // Optionnel : message si erreur réseau
           });
         });
       })
